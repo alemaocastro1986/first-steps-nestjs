@@ -5,6 +5,7 @@ import { CategoryController } from './category/category.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Category } from './category/category.entity';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -21,8 +22,9 @@ import { Category } from './category/category.entity';
       entities: [Category],
       synchronize: true,
     }),
+    CategoryModule,
   ],
-  controllers: [AppController, CategoryController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
