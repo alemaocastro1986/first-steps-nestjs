@@ -1,7 +1,18 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Res,
+  HttpStatus,
+} from '@nestjs/common';
 import { CategoryService } from './category.service';
 import CreateCategoryDto from './dtos/CreateCategoryDto';
 import { Category } from './category.entity';
+import UpdateCategoryDto from './dtos/UpdateCategoryDto';
+import { Response } from 'express';
 
 @Controller('categories')
 export class CategoryController {
@@ -19,5 +30,17 @@ export class CategoryController {
     });
 
     return category;
+  }
+
+  @Patch()
+  async update(@Body() { id, name }: UpdateCategoryDto): Promise<Category> {
+    const category = await this.categoryService.update({ id, name });
+    return category;
+  }
+
+  @Delete()
+  async destroy(@Res() res: Response, @Body() { id }: { id: string }) {
+    await this.categoryService.remove(id);
+    return res.status(HttpStatus.NO_CONTENT).json();
   }
 }
